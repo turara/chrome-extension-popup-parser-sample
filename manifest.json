@@ -9,5 +9,9 @@
   "browser_action": {
     "default_icon": "icon128.png",
     "default_popup": "popup/popup.html"
-  }
+  },
+  "permissions": [
+    "tabs",
+    "https://en.wikipedia.org/wiki/Main_Page"
+  ]
 }
