@@ -1,0 +1,9 @@
+{
+  "name": "Popup Parser Sample",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "description": "Parsing specific webpages from popup",
+  "icons": {
+    "128": "icon128.png"
+  }
+}
