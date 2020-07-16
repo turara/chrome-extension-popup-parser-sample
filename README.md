@@ -1,6 +1,8 @@
 # chrome-extension-popup-parser-sample
 Chrome extension sample for parsing web pages from popup
 
+![Sample image](https://user-images.githubusercontent.com/10044588/87617505-989ea180-c752-11ea-9bf8-a361a0e95f54.gif)
+
 ## Sample project for ...
 
 1. Open new tab in the background from the popup
@@ -27,6 +29,30 @@ Chrome extension sample for parsing web pages from popup
 ### popup.js
 
 ```javascript
+// Load new tab on the background
+async function loadNewTab(url, timeoutSeconds = 5) {
+  return new Promise((resolve, reject) => {
+    let targetTabId = null
+
+    const listener = (tabId, changedProps) => {
+      if (tabId != targetTabId || changedProps.status != 'complete') {
+        return
+      }
+      chrome.tabs.onUpdated.removeListener(listener)
+      resolve(tabId)
+    }
+    chrome.tabs.onUpdated.addListener(listener)
+
+    chrome.tabs.create({ url, active: false }, (tab) => {
+      targetTabId = tab.id
+    })
+
+    setTimeout(() => {
+      reject(new Error('Timeout...'))
+    }, timeoutSeconds * 1000)
+  })
+}
+
 // Recieve the result of script on the background tab
 async function parseWikipedia(tabId) {
   return new Promise((resolve, reject) => {
